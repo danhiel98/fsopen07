@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { authenticate } from '../reducers/userReducer'
+import { authenticate } from '../reducers/activeUserReducer'
 import { setErrorMessage } from '../reducers/notificationReducer'
 
 const LoginForm = () => {

@@ -3,10 +3,29 @@ import blogService from './services/blogs'
 import Notification from './components/Notification'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
-import { unsetUser, setUser } from './reducers/userReducer'
+import { unsetUser, setUser } from './reducers/activeUserReducer'
 import LoginForm from './components/LoginForm'
-import BlogList from './components/BlogList'
-import TogglableBlog from './components/TogglableBlog'
+import Home from './components/Home'
+
+import {
+  Route,
+  Routes,
+  Link
+} from 'react-router-dom'
+import Users from './components/Users'
+
+const Menu = () => {
+  const padding = {
+    paddingRight: 5
+  }
+
+  return (
+    <>
+      <Link to="/" style={padding}>blogs</Link>
+      <Link to="/users" style={padding}>users</Link>
+    </>
+  )
+}
 
 const App = () => {
   const dispatch = useDispatch()
@@ -43,13 +62,17 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <Notification />
+      <Menu />
 
       <p>
         {user.name} logged in
         <button onClick={handleLogout}>logout</button>
       </p>
-      <TogglableBlog />
-      <BlogList />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/users' element={<Users />} />
+      </Routes>
+
     </div >
   )
 }

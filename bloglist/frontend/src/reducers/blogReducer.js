@@ -12,8 +12,6 @@ const blogSlice = createSlice({
     removeBlog(state, action) {
       const deletedBlog = action.payload
 
-      console.log('Deleted blog:', deletedBlog)
-      console.log('State:', state)
       return state.filter(blog => blog.id !== deletedBlog.id)
     },
     updateBlogData(state, action) {
