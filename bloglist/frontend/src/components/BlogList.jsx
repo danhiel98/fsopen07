@@ -1,46 +1,29 @@
-import Blog from './Blog'
-import { useDispatch, useSelector } from 'react-redux'
-import { setSuccessMessage, setErrorMessage } from '../reducers/notificationReducer'
-import { updateBlog, deleteBlog } from '../reducers/blogReducer'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const BlogList = () => {
-  const dispatch = useDispatch()
-
   const blogs = useSelector(state => state.blogs)
-  const user = useSelector(state => state.user)
 
-  const handleLikeBlog = async (blog) => {
-    try {
-      await dispatch(updateBlog(blog.id, { likes: blog.likes + 1 }))
-      dispatch(setSuccessMessage(`You liked the blog ${blog.title}`, 4))
-    } catch ({ response }) {
-      dispatch(setErrorMessage(response.data.error, 5))
-    }
-  }
-
-  const handleDeleteBlog = async (blog) => {
-    try {
-      await dispatch(deleteBlog(blog))
-      dispatch(setSuccessMessage(`Blog ${blog.title} by ${blog.author} deleted`, 4))
-    } catch ({ response }) {
-      dispatch(setErrorMessage(response.data.error, 5))
-    }
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5
   }
 
   return (
     <div data-testid="blogs-list">
       {
         blogs.map(blog =>
-          <Blog
-            key={blog.id}
-            blog={blog}
-            user={user}
-            likeBlog={handleLikeBlog}
-            deleteBlog={handleDeleteBlog}
-          />
+          <div key={blog.id} className='blog-data' style={blogStyle}>
+            <Link to={`/blogs/${blog.id}`}>
+              {blog.title}
+            </Link>
+          </div>
         )
       }
-    </div>
+    </div >
   )
 }
 

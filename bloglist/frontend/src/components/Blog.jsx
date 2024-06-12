@@ -1,57 +1,54 @@
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setSuccessMessage, setErrorMessage } from '../reducers/notificationReducer'
+import { updateBlog, deleteBlog } from '../reducers/blogReducer'
 
-const Blog = ({ user, blog, likeBlog, deleteBlog }) => {
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
+const Blog = ({ blog }) => {
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
+
+  if (!blog) return (
+    <h3>No blog found</h3>
+  )
+
+  const handleLikeBlog = async () => {
+    try {
+      await dispatch(updateBlog(blog.id, { likes: blog.likes + 1 }))
+      dispatch(setSuccessMessage(`You liked the blog ${blog.title}`, 4))
+    } catch ({ response }) {
+      dispatch(setErrorMessage(response.data.error, 5))
+    }
   }
 
-  const [visible, setVisible] = useState(false)
-  // const [likes, setLikes] = useState(blog.likes)
+  const handleDeleteBlog = async () => {
+    try {
+      await dispatch(deleteBlog(blog))
+      dispatch(setSuccessMessage(`Blog ${blog.title} by ${blog.author} deleted`, 4))
+    } catch ({ response }) {
+      dispatch(setErrorMessage(response.data.error, 5))
+    }
+  }
 
-  const action = visible ? 'hide' : 'show'
   const sameUser = user && blog.user && user.username === blog.user.username
-
-  const toggleVisibility = () => {
-    setVisible(!visible)
-  }
-
-  const handleLike = async () => {
-    // setLikes(likes + 1)
-    await likeBlog(blog)
-  }
 
   const handleDelete = async () => {
     const result = confirm(`Remove blog ${blog.title} by ${blog.author}?`)
 
     if (result) {
-      await deleteBlog(blog)
+      handleDeleteBlog()
     }
   }
 
-  const blogDetail = () => (
+  return (
     <>
       <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
         <li><a href={blog.url} target="_blank" rel="noreferrer">{blog.url}</a></li>
-        <li><span className='likesCount'>likes {blog.likes}</span> <button onClick={handleLike}>like</button></li>
+        <li><span className='likesCount'>likes {blog.likes}</span> <button onClick={handleLikeBlog}>like</button></li>
         <li>{blog.user && blog.user.name}</li>
       </ul>
       {sameUser &&
         <button onClick={handleDelete}>remove</button>
       }
     </>
-  )
-
-  return (
-    <div className='blog-data' style={blogStyle}>
-      <span>{blog.title}</span> <span>{blog.author}</span>
-      <button onClick={toggleVisibility}>{action}</button>
-
-      {visible && blogDetail()}
-    </div>
   )
 }
 

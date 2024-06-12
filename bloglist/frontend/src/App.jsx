@@ -7,6 +7,7 @@ import { unsetUser, setUser } from './reducers/activeUserReducer'
 import LoginForm from './components/LoginForm'
 import Home from './components/Home'
 import User from './components/User'
+import Blog from './components/Blog'
 
 import {
   Route,
@@ -33,15 +34,20 @@ const App = () => {
   const dispatch = useDispatch()
 
   const user = useSelector(state => state.user)
-
-
   const users = useSelector(state => state.users)
+  const blogs = useSelector(state => state.blogs)
 
   const userById = id => users.find(u => u.id === id)
+  const blogById = id => blogs.find(u => u.id === id)
 
-  const match = useMatch('/users/:id')
-  const userFound = match
-    ? userById(match.params.id)
+  const userMatch = useMatch('/users/:id')
+  const userFound = userMatch
+    ? userById(userMatch.params.id)
+    : null
+
+  const blogMatch = useMatch('/blogs/:id')
+  const blogFound = blogMatch
+    ? blogById(blogMatch.params.id)
     : null
 
 
@@ -83,6 +89,7 @@ const App = () => {
       </p>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/blogs/:id' element={<Blog blog={blogFound} />} />
         <Route path='/users' element={<Users />} />
         <Route path='/users/:id' element={<User user={userFound} />} />
       </Routes>

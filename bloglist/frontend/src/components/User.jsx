@@ -1,14 +1,7 @@
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-
 const User = ({ user }) => {
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (!user) {
-      navigate('/users')
-    }
-  }, [])
+  if (!user) return (
+    <h3>No user found</h3>
+  )
 
   return (
     <>
