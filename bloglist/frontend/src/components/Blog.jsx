@@ -40,6 +40,7 @@ const Blog = ({ blog }) => {
 
   return (
     <>
+      <h2>{blog.title}</h2>
       <ul style={{ listStyle: 'none', paddingLeft: 0 }}>
         <li><a href={blog.url} target="_blank" rel="noreferrer">{blog.url}</a></li>
         <li><span className='likesCount'>likes {blog.likes}</span> <button onClick={handleLikeBlog}>like</button></li>
