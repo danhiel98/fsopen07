@@ -6,11 +6,13 @@ import { initializeBlogs } from './reducers/blogReducer'
 import { unsetUser, setUser } from './reducers/activeUserReducer'
 import LoginForm from './components/LoginForm'
 import Home from './components/Home'
+import User from './components/User'
 
 import {
   Route,
   Routes,
-  Link
+  Link,
+  useMatch
 } from 'react-router-dom'
 import Users from './components/Users'
 
@@ -31,6 +33,17 @@ const App = () => {
   const dispatch = useDispatch()
 
   const user = useSelector(state => state.user)
+
+
+  const users = useSelector(state => state.users)
+
+  const userById = id => users.find(u => u.id === id)
+
+  const match = useMatch('/users/:id')
+  const userFound = match
+    ? userById(match.params.id)
+    : null
+
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -71,6 +84,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/users' element={<Users />} />
+        <Route path='/users/:id' element={<User user={userFound} />} />
       </Routes>
 
     </div >
