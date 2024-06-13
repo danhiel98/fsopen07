@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, current } from '@reduxjs/toolkit'
 import { setSuccessMessage } from './notificationReducer'
 import blogService from '../services/blogs'
+import commentService from '../services/comment'
 
 const blogSlice = createSlice({
   name: 'blogs',
@@ -8,6 +9,14 @@ const blogSlice = createSlice({
   reducers: {
     appendBlog(state, action) {
       state.push(action.payload)
+    },
+    commentBlog(state, action) {
+      const { content, id, blog } = action.payload
+
+      const foundBlog = state.find(b => b.id === blog)
+      if (foundBlog) {
+        foundBlog.comments = foundBlog.comments.concat({ content, id })
+      }
     },
     removeBlog(state, action) {
       const deletedBlog = action.payload
@@ -31,6 +40,7 @@ const blogSlice = createSlice({
 
 export const {
   appendBlog,
+  commentBlog,
   removeBlog,
   updateBlogData,
   setBlogs
@@ -50,6 +60,13 @@ export const createBlog = (blog) => {
     const createdBlog = await blogService.create(blog)
     dispatch(appendBlog(createdBlog))
     dispatch(setSuccessMessage(message, 5))
+  }
+}
+
+export const createComment = (blogId, content) => {
+  return async dispatch => {
+    const createdComment = await commentService.create(blogId, content)
+    dispatch(commentBlog(createdComment))
   }
 }
 

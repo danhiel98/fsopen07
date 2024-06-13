@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { setSuccessMessage, setErrorMessage } from '../reducers/notificationReducer'
 import { updateBlog, deleteBlog } from '../reducers/blogReducer'
+import CommentForm from './CommentForm'
+import CommentList from './CommentList'
 
 const Blog = ({ blog }) => {
   const dispatch = useDispatch()
@@ -49,6 +51,10 @@ const Blog = ({ blog }) => {
       {sameUser &&
         <button onClick={handleDelete}>remove</button>
       }
+
+      <h3>comments</h3>
+      <CommentForm blog={blog} />
+      <CommentList comments={blog.comments} />
     </>
   )
 }
