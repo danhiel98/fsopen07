@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
+import { Form, Row, Col, Button } from 'react-bootstrap'
 
 const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
@@ -17,41 +18,44 @@ const BlogForm = ({ createBlog }) => {
   }
 
   return (
-    <form onSubmit={handleCreateBlog}>
-      <div>
-        title:
-        <input
-          data-testid="title"
-          type="text"
-          name="Title"
-          value={title}
-          placeholder='Title'
-          onChange={({ target }) => setTitle(target.value)}
-        />
+    <Form onSubmit={handleCreateBlog}>
+      <Form.Group as={Row} className="mb-3" controlId="titleInput">
+        <Form.Label column sm={2}>Title</Form.Label>
+        <Col sm={10}>
+          <Form.Control
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={({ target }) => setTitle(target.value)}
+          />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row} className="mb-3" controlId="authorInput">
+        <Form.Label column sm={2}>Author</Form.Label>
+        <Col sm={10}>
+          <Form.Control
+            type="text"
+            placeholder="Author"
+            value={author}
+            onChange={({ target }) => setAuthor(target.value)}
+          />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row} className="mb-3" controlId="urlInput">
+        <Form.Label column sm={2}>URL</Form.Label>
+        <Col sm={10}>
+          <Form.Control
+            type="url"
+            placeholder="URL"
+            value={url}
+            onChange={({ target }) => setUrl(target.value)}
+          />
+        </Col>
+      </Form.Group>
+      <div className='d-flex justify-content-end'>
+        <Button type="submit">Create</Button>
       </div>
-      <div>
-        author:
-        <input
-          data-testid="author"
-          type="text"
-          name="Author"
-          value={author}
-          placeholder='Author'
-          onChange={({ target }) => setAuthor(target.value)}
-        />
-      </div>
-      <div>
-        url:
-        <input
-          data-testid="url"
-          type="url"
-          name="Url"
-          value={url}
-          placeholder='URL'
-          onChange={({ target }) => setUrl(target.value)} />
-      </div>
-      <button type="submit">create</button>
-    </form>
+    </Form>
   )
 }
 

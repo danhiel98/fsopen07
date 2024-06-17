@@ -54,7 +54,7 @@ export const initializeBlogs = () => {
 }
 
 export const createBlog = (blog) => {
-  const message = `a new blog ${blog.title} by ${blog.author} added`
+  const message = `A new blog ${blog.title} by ${blog.author} added`
 
   return async dispatch => {
     const createdBlog = await blogService.create(blog)
@@ -64,9 +64,11 @@ export const createBlog = (blog) => {
 }
 
 export const createComment = (blogId, content) => {
+  const message = 'Comment added successfully'
   return async dispatch => {
     const createdComment = await commentService.create(blogId, content)
     dispatch(commentBlog(createdComment))
+    dispatch(setSuccessMessage(message, 5))
   }
 }
 

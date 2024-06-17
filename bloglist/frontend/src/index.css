@@ -1,22 +1,7 @@
-.note {
-  color: grey;
-  padding-top: 3px;
-  font-size: 15px;
+html {
+  overflow-y: scroll;
 }
 
-.message {
-  background-color: lightgrey;
-  font-size: 20px;
-  border-style: solid;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-.error {
-  color: red;
-}
-
-.success {
-  color: green;
+.text-error {
+  color: var(--bs-danger);
 }

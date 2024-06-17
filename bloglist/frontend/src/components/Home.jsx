@@ -4,6 +4,7 @@ import BlogList from './BlogList'
 const Home = () => {
   return (
     <>
+      <h1>Blogs</h1>
       <CreateBlog />
       <BlogList />
     </>

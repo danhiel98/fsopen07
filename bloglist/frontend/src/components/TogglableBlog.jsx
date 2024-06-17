@@ -20,7 +20,7 @@ const TogglableBlog = () => {
   }
 
   return (
-    <Togglable buttonLabel="create new blog" ref={blogFormRef}>
+    <Togglable buttonLabel="Create new blog" ref={blogFormRef}>
       <BlogForm createBlog={handleCreateBlog} />
     </Togglable>
   )

@@ -1,29 +1,23 @@
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import ListGroup from 'react-bootstrap/ListGroup'
 
 const BlogList = () => {
   const blogs = useSelector(state => state.blogs)
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-
   return (
-    <div data-testid="blogs-list">
+    <ListGroup>
       {
         blogs.map(blog =>
-          <div key={blog.id} className='blog-data' style={blogStyle}>
-            <Link to={`/blogs/${blog.id}`}>
-              {blog.title}
-            </Link>
-          </div>
+          <ListGroup.Item
+            className='link-primary'
+            key={blog.id}
+            as={Link} to={`/blogs/${blog.id}`}>
+            {blog.title}
+          </ListGroup.Item>
         )
       }
-    </div >
+    </ListGroup>
   )
 }
 
